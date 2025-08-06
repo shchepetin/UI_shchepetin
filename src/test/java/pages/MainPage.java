@@ -1,16 +1,14 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
 
 public class MainPage {
-    private final SelenideElement teamLink = $(".header-navigation-menu__item a[href='/team/']");
-    private final SelenideElement storeLink = $(".header-navigation-menu__item a[href='https://store.spartak.com']");
-    private final SelenideElement newsLink = $(".header-navigation-menu__item a[href='/news/']");
-    private final SelenideElement matchesLink = $(".header-navigation-menu__item a[href='/matches/']");
-    private final SelenideElement mainLogo = $(".header-logo");
+
+    private final SelenideElement newsLink = $("[data-testid='header-navMenu'] a[href='/media/news']");
+    private final SelenideElement matchesLink = $("[data-testid='header-navMenu'] a[href='/matches/forthcoming']");
+    private final SelenideElement teamLink = $x("//nav[@data-testid='header-navMenu']//a[contains(text(), 'команды')]");
+    private final SelenideElement storeLink = $("[data-testid='header-navMenu'] a[href*='store.spartak.com']");
 
     public MainPage openMainPage() {
         open("/");
@@ -34,11 +32,6 @@ public class MainPage {
 
     public MainPage goToMatchesPage() {
         matchesLink.click();
-        return this;
-    }
-
-    public MainPage checkLogoIsVisible() {
-        mainLogo.shouldBe(visible);
         return this;
     }
 }

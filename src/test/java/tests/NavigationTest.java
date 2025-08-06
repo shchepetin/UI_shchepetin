@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import pages.MainPage;
 import pages.StorePage;
 import pages.TeamPage;
-
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,8 +25,8 @@ public class NavigationTest extends BaseTest {
     public void testGoToTeamPage() {
         mainPage
                 .openMainPage()
-                .goToTeamPage()
-                .checkPageTitleIsVisible();
+                .goToTeamPage();
+        teamPage.checkTeamTitleIsCorrect("Спартак");
     }
 
     @Test
@@ -38,7 +37,7 @@ public class NavigationTest extends BaseTest {
         mainPage
                 .openMainPage()
                 .goToNewsPage();
-        assertTrue(url().contains("/news"), "URL должен содержать '/news'");
+        assertTrue(url().contains("/media/news"), "URL должен содержать '/media/news'");
     }
 
     @Test
@@ -49,7 +48,7 @@ public class NavigationTest extends BaseTest {
         mainPage
                 .openMainPage()
                 .goToMatchesPage();
-        assertTrue(url().contains("/matches"), "URL должен содержать '/matches'");
+        assertTrue(url().contains("/matches/forthcoming"), "URL должен содержать '/matches/forthcoming'");
     }
 
     @Test

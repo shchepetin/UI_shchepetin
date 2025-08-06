@@ -40,7 +40,7 @@ public class BaseTest {
     private void addVideo() {
         String sessionId = Selenide.sessionId().toString();
         if (Configuration.remote != null) {
-            String videoUrl = "https://selenoid.autotests.cloud/video/" + sessionId + ".mp4";
+            String videoUrl = "https://ru.selenoid.autotests.cloud/video/" + sessionId + ".mp4";
             try {
                 Allure.addAttachment("Video", "video/mp4", Files.newInputStream(new File(videoUrl).toPath()), ".mp4");
             } catch (IOException e) {

@@ -6,45 +6,50 @@ import org.junit.jupiter.api.Test;
 import pages.MainPage;
 import pages.TeamPage;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
+
 @Epic("UI-тестирование")
-@Feature("Страница команды")
-@Owner("Ilya Shchepetin")
+@Feature("Страница команд")
+@Owner("Ваше_Имя")
 public class TeamTest extends BaseTest {
 
     MainPage mainPage = new MainPage();
     TeamPage teamPage = new TeamPage();
 
     @Test
-    @Story("Проверка состава команды")
-    @DisplayName("Проверка, что на странице команды отображается более 20 игроков")
-    @Severity(SeverityLevel.BLOCKER)
-    public void testTeamPlayersCountIsCorrect() {
+    @Story("Проверка перехода на страницу команды")
+    @DisplayName("Проверка, что заголовок страницы 'Команда' отображается корректно")
+    @Severity(SeverityLevel.NORMAL)
+    public void testTeamPageTitleIsCorrect() {
         mainPage
                 .openMainPage()
                 .goToTeamPage();
-        teamPage.checkPlayerCardsCount();
+        teamPage.checkTeamTitleIsCorrect("Спартак");
     }
 
     @Test
-    @Story("Проверка профиля игрока")
-    @DisplayName("Проверка перехода на профиль первого игрока и отображение его имени")
+    @Story("Проверка переключения команд")
+    @DisplayName("Проверка перехода на страницу ЖФК Спартак и корректность заголовка")
     @Severity(SeverityLevel.NORMAL)
-    public void testPlayerProfileIsCorrect() {
+    public void testJfkSpartakPageTitleIsCorrect() {
         mainPage
                 .openMainPage()
-                .goToTeamPage()
-                .goToFirstPlayerProfile()
-                .checkPlayerNameIsDisplayed("Манфред Угальде");
+                .goToTeamPage();
+        teamPage
+                .goToJfkSpartakTeam()
+                .checkTeamTitleIsCorrect("ЖФК Спартак");
     }
 
     @Test
-    @Story("Проверка элементов страницы команды")
-    @DisplayName("Проверка, что на странице команды есть вкладка 'Тренерский штаб'")
-    @Severity(SeverityLevel.TRIVIAL)
-    public void testTeamStaffLinkIsVisible() {
+    @Story("Проверка главного тренера")
+    @DisplayName("Проверка, что на странице команды отображается главный тренер")
+    @Severity(SeverityLevel.BLOCKER)
+    public void testMainCoachIsDisplayed() {
         mainPage
                 .openMainPage()
-                .goToTeamPage()
-                .checkTeamStaffLinkIsVisible();
+                .goToTeamPage();
+        teamPage
+                .checkMainCoachNameIsDisplayed("Станкович");
     }
 }
