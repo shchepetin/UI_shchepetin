@@ -3,9 +3,10 @@ package tests;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import pages.AcademyPage;
 import pages.MainPage;
-import pages.StorePage;
 import pages.TeamPage;
+
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,7 +17,7 @@ public class NavigationTest extends BaseTest {
 
     MainPage mainPage = new MainPage();
     TeamPage teamPage = new TeamPage();
-    StorePage storePage = new StorePage();
+    AcademyPage academyPage = new AcademyPage();
 
     @Test
     @Story("Переход на страницу 'Команда'")
@@ -30,29 +31,7 @@ public class NavigationTest extends BaseTest {
     }
 
     @Test
-    @Story("Переход на страницу 'Новости'")
-    @DisplayName("Проверка перехода на страницу 'Новости'")
-    @Severity(SeverityLevel.NORMAL)
-    public void testGoToNewsPage() {
-        mainPage
-                .openMainPage()
-                .goToNewsPage();
-        assertTrue(url().contains("/media/news"), "URL должен содержать '/media/news'");
-    }
-
-    @Test
-    @Story("Переход на страницу 'Матчи'")
-    @DisplayName("Проверка перехода на страницу 'Матчи'")
-    @Severity(SeverityLevel.NORMAL)
-    public void testGoToMatchesPage() {
-        mainPage
-                .openMainPage()
-                .goToMatchesPage();
-        assertTrue(url().contains("/matches/forthcoming"), "URL должен содержать '/matches/forthcoming'");
-    }
-
-    @Test
-    @Story("Переход на страницу магазина")
+    @Story("Переход на внешний сайт магазина")
     @DisplayName("Проверка перехода на внешний сайт магазина и корректность URL")
     @Severity(SeverityLevel.CRITICAL)
     public void testGoToStorePage() {
@@ -60,5 +39,27 @@ public class NavigationTest extends BaseTest {
                 .openMainPage()
                 .goToStorePage()
                 .checkUrl();
+    }
+
+    @Test
+    @Story("Переход на страницу 'Академия'")
+    @DisplayName("Проверка перехода на страницу 'Академия' и отображение заголовка")
+    @Severity(SeverityLevel.NORMAL)
+    public void testGoToAcademyPage() {
+        mainPage
+                .openMainPage()
+                .goToAcademyPage();
+        academyPage.checkAcademyTitleIsCorrect("Академия Спартак");
+    }
+
+    @Test
+    @Story("Переход на страницу 'Клуб'")
+    @DisplayName("Проверка перехода на страницу 'Клуб' и корректность URL")
+    @Severity(SeverityLevel.NORMAL)
+    public void testGoToClubPage() {
+        mainPage
+                .openMainPage()
+                .goToClubPage();
+        assertTrue(url().contains("/club/results"), "URL должен содержать '/club/results'");
     }
 }
