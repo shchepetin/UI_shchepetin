@@ -9,9 +9,9 @@ import static com.codeborne.selenide.Selectors.byXpath;
 public class MainPage {
 
     private final SelenideElement academyLink = $("[data-testid='header-navMenu'] a[href='/academy/about']");
-    private final SelenideElement clubLink = $("[data-testid='header-navMenu'] a[href='/club/results']");
     private final SelenideElement teamLink = $(byXpath("//nav[@data-testid='header-navMenu']//a[contains(text(), 'команды')]"));
     private final SelenideElement storeLink = $("[data-testid='header-navMenu'] a[href*='store.spartak.com']");
+    private final SelenideElement authLink = $("[data-testid='header-userinfo-authorization']");
 
     public MainPage openMainPage() {
         open("/");
@@ -33,8 +33,8 @@ public class MainPage {
         return new AcademyPage();
     }
 
-    public MainPage goToClubPage() {
-        clubLink.click();
-        return this;
+    public AuthPage goToAuthPage() {
+        authLink.click();
+        return new AuthPage();
     }
 }

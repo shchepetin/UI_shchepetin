@@ -4,11 +4,10 @@ import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.AcademyPage;
+import pages.AuthPage;
 import pages.MainPage;
 import pages.TeamPage;
-
 import static com.codeborne.selenide.WebDriverRunner.url;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Epic("UI-тестирование")
 @Feature("Навигация по сайту")
@@ -18,6 +17,7 @@ public class NavigationTest extends BaseTest {
     MainPage mainPage = new MainPage();
     TeamPage teamPage = new TeamPage();
     AcademyPage academyPage = new AcademyPage();
+    AuthPage authPage = new AuthPage();
 
     @Test
     @Story("Переход на страницу 'Команда'")
@@ -53,13 +53,13 @@ public class NavigationTest extends BaseTest {
     }
 
     @Test
-    @Story("Переход на страницу 'Клуб'")
-    @DisplayName("Проверка перехода на страницу 'Клуб' и корректность URL")
+    @Story("Переход на страницу авторизации")
+    @DisplayName("Проверка перехода на страницу авторизации и отображение заголовка")
     @Severity(SeverityLevel.NORMAL)
-    public void testGoToClubPage() {
+    public void testGoToAuthPage() {
         mainPage
                 .openMainPage()
-                .goToClubPage();
-        assertTrue(url().contains("/club/results"), "URL должен содержать '/club/results'");
+                .goToAuthPage();
+        authPage.checkAuthTitleIsCorrect("Войти в личный кабинет ФК «Спартак»");
     }
 }
