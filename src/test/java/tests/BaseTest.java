@@ -20,7 +20,7 @@ public class BaseTest {
 
     @BeforeAll
     static void installConfiguration() {
-        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.baseUrl = System.getProperty("baseUrl", "https://spartak.com/");
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserSize = System.getProperty("browser.size", "1920x1080");
         Configuration.browserVersion = System.getProperty("browser.version", "128.0");
