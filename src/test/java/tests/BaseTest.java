@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.logging.LogType;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +19,6 @@ import java.net.URL;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.openqa.selenium.logging.LogType.BROWSER;
 
 public class BaseTest {
 
@@ -29,10 +29,7 @@ public class BaseTest {
         Configuration.browserVersion = System.getProperty("browserVersion", "125.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
 
-        Configuration.remote = System.getProperty("remote", "http://selenoid.autotests.cloud/wd/hub");
-
-        Configuration.remoteConnectionTimeout = 120000;
-        Configuration.pollingInterval = 300;
+        Configuration.remote = System.getProperty("remote", "http://selenoid.autotests.cloud/");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.of(
@@ -41,10 +38,7 @@ public class BaseTest {
         ));
         Configuration.browserCapabilities = capabilities;
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true)
-        );
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @AfterEach
@@ -53,9 +47,11 @@ public class BaseTest {
         addPageSource();
         addBrowserLogs();
 
-        Selenide.closeWebDriver();
+        if (Configuration.remote != null) {
+            addVideo();
+        }
 
-        addVideo();
+        Selenide.closeWebDriver();
     }
 
     public static void addScreenshot() {
@@ -81,7 +77,7 @@ public class BaseTest {
                 "Логи браузера",
                 "text/plain",
                 "log",
-                String.join("\n", Selenide.getWebDriverLogs(BROWSER)).getBytes(UTF_8)
+                String.join("\n", Selenide.getWebDriverLogs(LogType.BROWSER)).getBytes(UTF_8)
         );
     }
 
