@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Allure;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -27,6 +28,7 @@ public class BaseTest {
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "125.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
+
         Configuration.remote = System.getProperty("remote", "http://selenoid.autotests.cloud/wd/hub");
 
         Configuration.remoteConnectionTimeout = 120000;
@@ -41,7 +43,7 @@ public class BaseTest {
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
-                .savePageSource(false)
+                .savePageSource(true)
         );
     }
 
@@ -50,7 +52,9 @@ public class BaseTest {
         addScreenshot();
         addPageSource();
         addBrowserLogs();
+
         Selenide.closeWebDriver();
+
         addVideo();
     }
 
@@ -59,7 +63,7 @@ public class BaseTest {
                 "Последний скриншот",
                 "image/png",
                 "png",
-                ((TakesScreenshot) Selenide.getWebDriver()).getScreenshotAs(OutputType.BYTES)
+                ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES)
         );
     }
 
@@ -68,7 +72,7 @@ public class BaseTest {
                 "Исходный код страницы",
                 "text/html",
                 "html",
-                Selenide.webdriver().driver().source().getBytes(UTF_8)
+                WebDriverRunner.getWebDriver().getPageSource().getBytes(UTF_8)
         );
     }
 
