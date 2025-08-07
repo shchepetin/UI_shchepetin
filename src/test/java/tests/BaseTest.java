@@ -7,12 +7,17 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Map;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.openqa.selenium.logging.LogType.BROWSER;
 
 public class BaseTest {
 
@@ -20,9 +25,19 @@ public class BaseTest {
     public static void setUp() {
         Configuration.baseUrl = System.getProperty("baseUrl", "https://spartak.com/");
         Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.browserVersion = System.getProperty("browserVersion");
+        Configuration.browserVersion = System.getProperty("browserVersion", "125.0");
         Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
-        Configuration.remote = System.getProperty("remote");
+        Configuration.remote = System.getProperty("remote", "http://selenoid.autotests.cloud/wd/hub");
+
+        Configuration.remoteConnectionTimeout = 120000;
+        Configuration.pollingInterval = 300;
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("selenoid:options", Map.of(
+                "enableVNC", true,
+                "enableVideo", true
+        ));
+        Configuration.browserCapabilities = capabilities;
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
@@ -32,26 +47,47 @@ public class BaseTest {
 
     @AfterEach
     public void tearDown() {
-        addVideo();
+        addScreenshot();
+        addPageSource();
         addBrowserLogs();
         Selenide.closeWebDriver();
+        addVideo();
+    }
+
+    public static void addScreenshot() {
+        Allure.getLifecycle().addAttachment(
+                "Последний скриншот",
+                "image/png",
+                "png",
+                ((TakesScreenshot) Selenide.getWebDriver()).getScreenshotAs(OutputType.BYTES)
+        );
+    }
+
+    public static void addPageSource() {
+        Allure.getLifecycle().addAttachment(
+                "Исходный код страницы",
+                "text/html",
+                "html",
+                Selenide.webdriver().driver().source().getBytes(UTF_8)
+        );
+    }
+
+    public static void addBrowserLogs() {
+        Allure.getLifecycle().addAttachment(
+                "Логи браузера",
+                "text/plain",
+                "log",
+                String.join("\n", Selenide.getWebDriverLogs(BROWSER)).getBytes(UTF_8)
+        );
     }
 
     private void addVideo() {
         String sessionId = Selenide.sessionId().toString();
-        if (Configuration.remote != null) {
-            String videoUrl = "https://ru.selenoid.autotests.cloud/video/" + sessionId + ".mp4";
-            try {
-                Allure.addAttachment("Video", "video/mp4", Files.newInputStream(new File(videoUrl).toPath()), ".mp4");
-            } catch (IOException e) {
-                Logger.getLogger(BaseTest.class.getName()).log(Level.WARNING, "Could not attach video", e);
-            }
+        String videoUrl = "https://selenoid.autotests.cloud/video/" + sessionId + ".mp4";
+        try (InputStream video = new URL(videoUrl).openStream()) {
+            Allure.addAttachment("Видео", "video/mp4", video, ".mp4");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    private void addBrowserLogs() {
-        Allure.addAttachment("Browser logs",
-                String.join("\n", Selenide.getWebDriverLogs("browser"))
-        );
     }
 }
