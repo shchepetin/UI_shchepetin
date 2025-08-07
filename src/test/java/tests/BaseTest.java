@@ -2,92 +2,48 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.Allure;
+import config.ProjectConfig;
+import config.WebConfig;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.logging.LogType;
+import helpers.Attachments;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Map;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
+import java.util.UUID;
+import config.WebProvider;
 
 public class BaseTest {
+    public static final WebConfig webConfig = WebProvider.getWebConfig();
 
     @BeforeAll
-    public static void setUp() {
-        Configuration.baseUrl = System.getProperty("baseUrl", "https://spartak.com/");
-        Configuration.browser = System.getProperty("browser", "chrome");
-        Configuration.browserVersion = System.getProperty("browserVersion", "125.0");
-        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
-
-        Configuration.remote = System.getProperty("remote", "http://selenoid.autotests.cloud/");
+    static void setupConfig(){
+        ProjectConfig projectConfig = new ProjectConfig(webConfig);
+        projectConfig.setConfig();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.of(
                 "enableVNC", true,
-                "enableVideo", true
+                "enableVideo", true,
+                "name", "Test: " + UUID.randomUUID()
         ));
         Configuration.browserCapabilities = capabilities;
+    }
 
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+    @BeforeEach
+    public void setupConfigBeforeEach(){
+        SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
     @AfterEach
-    public void tearDown() {
-        addScreenshot();
-        addPageSource();
-        addBrowserLogs();
-
-        if (Configuration.remote != null) {
-            addVideo();
-        }
-
+    void addAttachments() {
+        Attachments.screenshotAs("Last screenshot");
+        Attachments.pageSource();
+        Attachments.browserConsoleLogs();
+        Attachments.addVideo();
         Selenide.closeWebDriver();
-    }
-
-    public static void addScreenshot() {
-        Allure.getLifecycle().addAttachment(
-                "Последний скриншот",
-                "image/png",
-                "png",
-                ((TakesScreenshot) WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES)
-        );
-    }
-
-    public static void addPageSource() {
-        Allure.getLifecycle().addAttachment(
-                "Исходный код страницы",
-                "text/html",
-                "html",
-                WebDriverRunner.getWebDriver().getPageSource().getBytes(UTF_8)
-        );
-    }
-
-    public static void addBrowserLogs() {
-        Allure.getLifecycle().addAttachment(
-                "Логи браузера",
-                "text/plain",
-                "log",
-                String.join("\n", Selenide.getWebDriverLogs(LogType.BROWSER)).getBytes(UTF_8)
-        );
-    }
-
-    private void addVideo() {
-        String sessionId = Selenide.sessionId().toString();
-        String videoUrl = "https://selenoid.autotests.cloud/video/" + sessionId + ".mp4";
-        try (InputStream video = new URL(videoUrl).openStream()) {
-            Allure.addAttachment("Видео", "video/mp4", video, ".mp4");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
