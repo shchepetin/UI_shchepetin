@@ -2,6 +2,7 @@ package tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
 import pages.TeamPage;
@@ -11,7 +12,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 @Epic("UI-тестирование")
 @Feature("Страница команд")
-@Owner("Ваше_Имя")
+@Owner("Ilya Shchepetin")
+@Tag("Jenkins")
 public class TeamTest extends BaseTest {
 
     MainPage mainPage = new MainPage();
