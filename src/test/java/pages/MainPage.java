@@ -1,10 +1,9 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selectors.byXpath;
-
+import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class MainPage {
 
@@ -14,7 +13,24 @@ public class MainPage {
     private final SelenideElement authLink = $("[data-testid='header-userinfo-authorization']");
 
     public MainPage openMainPage() {
-        open("/");
+        int attempts = 0;
+        int maxAttempts = 3;
+
+        while (attempts < maxAttempts) {
+            open("https://spartak.com/");
+
+            if (url().contains("/en")) {
+                attempts++;
+                System.out.println("Обнаружена английская версия. Попытка " + attempts + " из " + maxAttempts + ".");
+                closeWebDriver();
+            } else {
+                return this;
+            }
+        }
+
+        if (url().contains("/en")) {
+            throw new IllegalStateException("Не удалось открыть русскую версию сайта за " + maxAttempts + " попыток.");
+        }
         return this;
     }
 

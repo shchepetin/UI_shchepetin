@@ -8,11 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
 import java.util.Map;
-
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverRunner.url;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class BaseTest {
 
@@ -29,7 +26,6 @@ public class BaseTest {
         Configuration.browserVersion = System.getProperty("browser.version", "128.0");
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
-
         Configuration.remote = String.format(
                 "http://%s:%s@%s/wd/hub",
                 System.getProperty("selenoidUserLogin", "user1"),
@@ -43,12 +39,6 @@ public class BaseTest {
                 "enableVideo", true
         ));
         Configuration.browserCapabilities = capabilities;
-    }
-    @BeforeEach
-    void ensureRussianUrl() {
-        if (url().contains("/en")) {
-            open("https://spartak.com/");
-        }
     }
 
     @AfterEach
