@@ -1,20 +1,30 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selectors.byXpath;
-
+import static com.codeborne.selenide.Condition.visible;
 
 public class MainPage {
 
-    private final SelenideElement academyLink = $("[data-testid='header-navMenu'] a[href='/academy/about']");
-    private final SelenideElement teamLink = $(byXpath("//nav[@data-testid='header-navMenu']//a[contains(text(), 'команды')]"));
-    private final SelenideElement storeLink = $("[data-testid='header-navMenu'] a[href*='store.spartak.com']");
-    private final SelenideElement authLink = $("[data-testid='header-userinfo-authorization']");
+    private final SelenideElement
+            academyLink = $("[data-testid='header-navMenu'] a[href='/academy/about']"),
+            teamLink = $(byXpath("//nav[@data-testid='header-navMenu']//a[contains(text(), 'команды')]")),
+            storeLink = $("[data-testid='header-navMenu'] a[href*='store.spartak.com']"),
+            authLink = $("[data-testid='header-userinfo-authorization']"),
+            languageSwitcher = $("[data-testid='header-change-localization']");
 
     public MainPage openMainPage() {
         open("/");
+
+        if ($("html").getAttribute("lang").equals("ru")) {
+            return this;
+        }
+
+        if ($("html").getAttribute("lang").equals("en")) {
+            languageSwitcher.click();
+            $("[data-testid='header-navMenu'] a[href='/team/main']").shouldBe(visible);
+        }
         return this;
     }
 
