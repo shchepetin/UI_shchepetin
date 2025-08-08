@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.attribute;
 
 public class MainPage {
 
@@ -17,14 +18,12 @@ public class MainPage {
     public MainPage openMainPage() {
         open("/");
 
-        if ($("html").getAttribute("lang").equals("ru")) {
-            return this;
-        }
-
         if ($("html").getAttribute("lang").equals("en")) {
             languageSwitcher.click();
-            $("[data-testid='header-navMenu'] a[href='/team/main']").shouldBe(visible);
         }
+
+        $("html").shouldHave(attribute("lang", "ru"));
+
         return this;
     }
 
