@@ -1,0 +1,16 @@
+{
+  "base": {
+    "project": "UI_shchepetin",
+    "environment": "Test",
+    "comment": "Отчет UI_shchepetin",
+    "reportLink": "https://jenkins.autotests.cloud/job/C35-ilyatestdornet-UI/",
+    "language": "en",
+    "allureFolder": "allure-report/",
+    "enableChart": true
+  },
+  "telegram": {
+    "token": "7633635600:AAEB16ZlVqlFdlDHvfjNWSXl0g_M-NI12K8",
+    "chat": "-4730498248",
+    "replyTo": ""
+  }
+}

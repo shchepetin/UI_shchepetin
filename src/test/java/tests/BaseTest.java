@@ -8,8 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
 import java.util.Map;
-import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class BaseTest {
 
@@ -27,14 +27,14 @@ public class BaseTest {
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
         Configuration.remote = String.format(
-                "http://%s:%s@%s/wd/hub",
+                "https://%s:%s@%s/wd/hub",
                 System.getProperty("selenoidUserLogin", "user1"),
                 System.getProperty("selenoidUserPassword", "1234"),
-                System.getProperty("selenoidUrl", "ru.selenoid.autotests.cloud")
+                System.getProperty("selenoidUrl", "selenoid.autotests.cloud")
         );
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("selenoid:options", Map.of(
+        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
                 "enableVideo", true
         ));
@@ -43,10 +43,9 @@ public class BaseTest {
 
     @AfterEach
     void addAttachments() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-        closeWebDriver();
+        helpers.Attach.screenshotAs("Last screenshot");
+        helpers.Attach.pageSource();
+        helpers.Attach.browserConsoleLogs();
+        helpers.Attach.addVideo();
     }
 }
