@@ -30,7 +30,7 @@ public class BaseTest {
                 "https://%s:%s@%s/wd/hub",
                 System.getProperty("selenoidUserLogin", "user1"),
                 System.getProperty("selenoidUserPassword", "1234"),
-                System.getProperty("selenoidUrl", "selenoid.autotests.cloud")
+                System.getProperty("selenoidUrl", "ru.selenoid.autotests.cloud")
         );
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
