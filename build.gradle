@@ -48,3 +48,8 @@ task simple_test(type: Test) {
         includeTags("Jenkins")
     }
 }
+
+tasks.withType(Test) {
+    systemProperties = System.properties
+    systemProperties['file.encoding'] = 'UTF-8'
+}
