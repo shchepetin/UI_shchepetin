@@ -7,6 +7,12 @@ repositories {
     mavenCentral()
 }
 
+
+tasks.withType(Test) {
+    systemProperties = System.properties
+    systemProperties['file.encoding'] = 'UTF-8'
+}
+
 allure {
     report {
         version.set('2.30.0')
