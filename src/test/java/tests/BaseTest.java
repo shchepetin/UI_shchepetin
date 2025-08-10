@@ -11,8 +11,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
 
-import static com.codeborne.selenide.Selenide.closeWebDriver;
-
 public class BaseTest {
 
     @BeforeEach
@@ -22,22 +20,21 @@ public class BaseTest {
 
     @BeforeAll
     static void installConfiguration() {
-        Configuration.baseUrl = System.getProperty("baseUrl", "https://spartak.com/en");
+        Configuration.baseUrl = System.getProperty("baseUrl", "https://spartak.com/");
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserSize = System.getProperty("browser.size", "1920x1080");
         Configuration.browserVersion = System.getProperty("browser.version", "128.0");
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
-
         Configuration.remote = String.format(
-                "http://%s:%s@%s/wd/hub",
+                "https://%s:%s@%s/wd/hub",
                 System.getProperty("selenoidUserLogin", "user1"),
                 System.getProperty("selenoidUserPassword", "1234"),
                 System.getProperty("selenoidUrl", "ru.selenoid.autotests.cloud")
         );
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("selenoid:options", Map.of(
+        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
                 "enableVideo", true
         ));
@@ -46,10 +43,9 @@ public class BaseTest {
 
     @AfterEach
     void addAttachments() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-        closeWebDriver();
+        helpers.Attach.screenshotAs("Last screenshot");
+        helpers.Attach.pageSource();
+        helpers.Attach.browserConsoleLogs();
+        helpers.Attach.addVideo();
     }
 }
