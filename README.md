@@ -35,7 +35,7 @@
 ## Реализованные тестовые сценарии
 
 - ✓ **Проверка навигации:** Тестирование переходов на страницы "Команда" и "Академия", перехода на страницу авторизации .
-- ✓ **Проверка внешнего перехода:** Тестирование перехода на внешний сайт магазина.
+- ✓ **Проверка внешнего перехода:** Тестирование перехода на внешний сайт магазина и официального YouTube канала команды.
 - ✓ **Проверка страницы команды:** Тестирование, что на странице команды отображается заголовок, выбранной команды.
 - ✓ **Проверка переключения команд:** Тестирование перехода на страницу ЖФК Спартак.
 - ✓ **Проверка элементов страницы:** Тестирование, что на странице команды отображается главный тренер.
@@ -84,12 +84,12 @@
 
 ## Настройка и запуск сборки в Jenkins
 
-<img src="media/logo/Jenkins.svg" width="25" height="25" alt="Jenkins"/> Настройка и запуск сборки в [Jenkins]([ВАША_ССЫЛКА_НА_JENKINS])
+<img src="media/logo/Jenkins.svg" width="25" height="25" alt="Jenkins"/> Настройка и запуск сборки в [Jenkins](https://jenkins.autotests.cloud/job/C35-ilyatestdornet-UI/)
 
 Для запуска автоматизированной сборки перейдите в раздел `Собрать с параметрами`, выберите необходимые конфигурации и активируйте процесс нажатием кнопки `Собрать`.
 
 <p align="center">
-<a href="[ВАША_ССЫЛКА_НА_JENKINS]"><img src="media/screens/jenkins_main.png" alt="Jenkins1"/></a>
+<a href="https://jenkins.autotests.cloud/job/C35-ilyatestdornet-UI/"><img src="media/screens/jenkins_main.png" alt="Jenkins1"/></a>
 </p>
 
 По завершении сборки в блоке `История сборок` рядом с номером сборки появится иконка Allure Report. При нажатии на неё откроется сформированный HTML-отчет, содержащий всю тестовую документацию.
@@ -98,18 +98,18 @@
 
 ## Отчет Allure
 
-<img src="media/logo/Allure.svg" width="25" height="25" alt="Allure"/> [Allure]([ВАША_ССЫЛКА_НА_ALLURE]) отчет
+<img src="media/logo/Allure.svg" width="25" height="25" alt="Allure"/> [Allure](https://jenkins.autotests.cloud/job/C35-ilyatestdornet-UI/47/allure/) отчет
 
 ### Обзорная страница отчета
 
 <p align="center">
-<img src="media/screens/allure_ui_main.png" alt="Allure report" width="1000" height="400">
+<img src="media/screens/allure_auto_main.png" alt="Allure report" width="1000" height="400">
 </p>
 
 ### Детализация тест-кейсов
 
 <p align="center">
-<img src="media/screens/allure_ui_2.png" alt="Test Case" width="1000" height="400">
+<img src="media/screens/allure_auto_2.png" alt="Test Case" width="1000" height="400">
 </p>
 
 ---
