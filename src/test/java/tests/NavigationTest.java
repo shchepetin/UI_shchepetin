@@ -8,6 +8,7 @@ import pages.AcademyPage;
 import pages.AuthPage;
 import pages.MainPage;
 import pages.TeamPage;
+import pages.YouTubePage;
 
 @Epic("UI-тестирование")
 @Feature("Навигация по сайту")
@@ -24,7 +25,7 @@ public class NavigationTest extends BaseTest {
     @Story("Переход на страницу 'Команда'")
     @DisplayName("Проверка перехода на страницу 'Команда' и отображение заголовка")
     @Severity(SeverityLevel.NORMAL)
-    public void testGoToTeamPage() {
+    public void testGoToTeamPageTest() {
         mainPage
                 .openMainPage()
                 .goToTeamPage();
@@ -35,7 +36,7 @@ public class NavigationTest extends BaseTest {
     @Story("Переход на внешний сайт магазина")
     @DisplayName("Проверка перехода на внешний сайт магазина и корректность URL")
     @Severity(SeverityLevel.CRITICAL)
-    public void testGoToStorePage() {
+    public void testGoToStorePageTest() {
         mainPage
                 .openMainPage()
                 .goToStorePage()
@@ -46,7 +47,7 @@ public class NavigationTest extends BaseTest {
     @Story("Переход на страницу 'Академия'")
     @DisplayName("Проверка перехода на страницу 'Академия' и отображение заголовка")
     @Severity(SeverityLevel.NORMAL)
-    public void testGoToAcademyPage() {
+    public void testGoToAcademyPageTest() {
         mainPage
                 .openMainPage()
                 .goToAcademyPage();
@@ -57,10 +58,21 @@ public class NavigationTest extends BaseTest {
     @Story("Переход на страницу авторизации")
     @DisplayName("Проверка перехода на страницу авторизации и отображение заголовка")
     @Severity(SeverityLevel.NORMAL)
-    public void testGoToAuthPage() {
+    public void testGoToAuthPageTest() {
         mainPage
                 .openMainPage()
                 .goToAuthPage();
         authPage.checkAuthTitleIsCorrect("Log in to the personal account of FC «Spartak»");
+    }
+
+    @Test
+    @Story("Переход на YouTube Канал")
+    @DisplayName("Проверка перехода на YouTube Канал команды и корректность URL")
+    @Severity(SeverityLevel.NORMAL)
+    public void testGoToYoutubeChannelTest() {
+        mainPage
+                .openMainPage()
+                .goToYoutubeChannel()
+                .checkUrl();
     }
 }

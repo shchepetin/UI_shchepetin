@@ -21,7 +21,7 @@ public class TeamTest extends BaseTest {
     @Story("Проверка страницы команды")
     @DisplayName("Проверка перехода на страницу ЖФК Спартак и отображение заголовка")
     @Severity(SeverityLevel.NORMAL)
-    public void testGoToWfcSpartakPage() {
+    public void testGoToWfcSpartakPageTest() {
         mainPage
                 .openMainPage()
                 .goToTeamPage();
@@ -34,7 +34,7 @@ public class TeamTest extends BaseTest {
     @Story("Проверка страницы команды")
     @DisplayName("Проверка отображения фамилии главного тренера")
     @Severity(SeverityLevel.NORMAL)
-    public void testCheckCoachFamily() {
+    public void testCheckCoachFamilyTest() {
         mainPage
                 .openMainPage()
                 .goToTeamPage();

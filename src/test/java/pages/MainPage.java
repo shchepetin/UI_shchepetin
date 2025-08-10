@@ -11,6 +11,7 @@ public class MainPage {
     private final SelenideElement teamLink = $("a[href='/en/teams/94974f94-27da-4350-81b3-9eb7afa82237']");
     private final SelenideElement storeLink = $("[data-testid='header-navMenu'] a[href*='store.spartak.com']");
     private final SelenideElement authLink = $("[data-testid='header-userinfo-authorization']");
+    private final SelenideElement youtubeLink = $("a[aria-label='youtube channel']");
 
     public MainPage openMainPage() {
         open("/");
@@ -35,5 +36,10 @@ public class MainPage {
     public AuthPage goToAuthPage() {
         authLink.click();
         return new AuthPage();
+    }
+
+    public YouTubePage goToYoutubeChannel() {
+        youtubeLink.click();
+        return new YouTubePage();
     }
 }
