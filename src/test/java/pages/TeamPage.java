@@ -3,32 +3,26 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selectors.byText;
 
 public class TeamPage {
 
-    private final SelenideElement pageTitle = $(".sc-d792af70-0.kdBQTS");
-    private final SelenideElement teamSearchMenu = $(".sc-9d0a65de-2.fINLCJ");
-    private final SelenideElement jfkSpartakButton = teamSearchMenu.$("div.ivmsQU", 0);
-    private final SelenideElement mainCoachCard = $("#playerFamily");
+    private final SelenideElement teamTitle = $(".sc-d792af70-0.kdBQTS");
+    private final SelenideElement wfcSpartakLink = $(byText("WFC Spartak"));
+    private final SelenideElement coachFamily = $("#playerFamily");
 
-    public TeamPage checkPageTitleIsVisible() {
-        pageTitle.shouldBe(visible);
+    public TeamPage checkTeamTitleIsCorrect(String expectedTitle) {
+        teamTitle.shouldHave(text(expectedTitle));
         return this;
     }
 
-    public TeamPage checkTeamTitleIsCorrect(String teamName) {
-        pageTitle.shouldHave(text(teamName));
+    public TeamPage goToWfcSpartakPage() {
+        wfcSpartakLink.click();
         return this;
     }
 
-    public TeamPage goToJfkSpartakTeam() {
-        jfkSpartakButton.click();
-        return this;
-    }
-
-    public TeamPage checkMainCoachNameIsDisplayed(String name) {
-        mainCoachCard.shouldHave(text(name));
+    public TeamPage checkCoachIsCorrect(String expectedFamily) {
+        coachFamily.shouldHave(text(expectedFamily));
         return this;
     }
 }

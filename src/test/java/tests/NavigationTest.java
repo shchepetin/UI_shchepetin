@@ -8,7 +8,6 @@ import pages.AcademyPage;
 import pages.AuthPage;
 import pages.MainPage;
 import pages.TeamPage;
-import static com.codeborne.selenide.WebDriverRunner.url;
 
 @Epic("UI-тестирование")
 @Feature("Навигация по сайту")
@@ -29,7 +28,7 @@ public class NavigationTest extends BaseTest {
         mainPage
                 .openMainPage()
                 .goToTeamPage();
-        teamPage.checkTeamTitleIsCorrect("Спартак");
+        teamPage.checkTeamTitleIsCorrect("FC Spartak Moscow");
     }
 
     @Test
@@ -51,7 +50,7 @@ public class NavigationTest extends BaseTest {
         mainPage
                 .openMainPage()
                 .goToAcademyPage();
-        academyPage.checkAcademyTitleIsCorrect("Академия Спартак");
+        academyPage.checkAcademyTitleIsCorrect("Academy Spartak");
     }
 
     @Test
@@ -62,6 +61,6 @@ public class NavigationTest extends BaseTest {
         mainPage
                 .openMainPage()
                 .goToAuthPage();
-        authPage.checkAuthTitleIsCorrect("Войти в личный кабинет ФК «Спартак»");
+        authPage.checkAuthTitleIsCorrect("Log in to the personal account of FC «Spartak»");
     }
 }
