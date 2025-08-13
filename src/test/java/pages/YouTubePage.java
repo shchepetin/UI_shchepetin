@@ -3,9 +3,11 @@ package pages;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import io.qameta.allure.Step;
 
 public class YouTubePage {
 
+    @Step("Проверить, что URL YouTube-канала содержит 'https://www.youtube.com/user/fcsmofficial'")
     public YouTubePage checkUrl() {
         switchTo().window(1);
         String currentUrl = url();

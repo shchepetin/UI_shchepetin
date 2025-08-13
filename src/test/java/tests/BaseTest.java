@@ -11,6 +11,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
 
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+
 public class BaseTest {
 
     @BeforeEach
@@ -47,5 +49,6 @@ public class BaseTest {
         helpers.Attach.pageSource();
         helpers.Attach.browserConsoleLogs();
         helpers.Attach.addVideo();
+        closeWebDriver();
     }
 }

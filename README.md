@@ -1,4 +1,4 @@
-# Проект по автоматизации тестирования UI-части сайта spartak.com
+# Проект по автоматизации тестирования UI-части сайта [spartak.com](https://spartak.com/en)
 
 <p align="center">
   <img src="media/logo/spartak_logo.png" alt="Спартак" width="300"/>
